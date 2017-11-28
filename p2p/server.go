@@ -720,6 +720,21 @@ func (srv *Server) SetupConn(fd net.Conn, flags connFlag, dialDest *discover.Nod
 		c.close(err)
 		return
 	}
+
+
+
+//starting RoseBay Premissioning
+
+
+currentNode :=srv.NodeInfo().ID
+cnodeName :=srv.NodeInfo().Name
+
+
+
+
+ 
+
+
 	clog := log.New("id", c.id, "addr", c.fd.RemoteAddr(), "conn", c.flags)
 	// For dialed connections, check that the remote public key matches.
 	if dialDest != nil && c.id != dialDest.ID {
