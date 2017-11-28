@@ -137,6 +137,13 @@ type Config struct {
 	// If EnableMsgEvents is set then the server will emit PeerEvents
 	// whenever a message is sent to or received from a peer
 	EnableMsgEvents bool
+
+//for permission blockchain we need to add few fields. 
+
+EnableNodePermission bool `toml:",omitempty"`
+DataDir string `toml:",omitempty"`
+
+
 }
 
 // Server manages all peer connections.
