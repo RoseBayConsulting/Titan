@@ -732,7 +732,34 @@ cnodeName :=srv.NodeInfo().Name
 
 
 
- 
+log.Trace("RoseBay Permissioning",
+		"EnableNodePermission", srv.EnableNodePermission,
+		"DataDir", srv.DataDir,
+		"Current Node ID", currentNode,
+		"Node Name", cnodeName,
+		"Dialed Dest", dialDest,
+		"Connection ID", c.id,
+		"Connection String", c.id.String())
+
+	if srv.EnableNodePermission {
+		log.Trace("Node Permissioning is Enabled.")
+		node := c.id.String()
+		direction := "INCOMING"
+		if dialDest != nil {
+			node = dialDest.ID.String()
+			direction = "OUTGOING"
+			log.Trace("Node Permissioning", "Connection Direction", direction)
+		}
+
+		if !isNodePermissioned(node, currentNode, srv.DataDir, direction) {
+			return
+		}
+	} else {
+		log.Trace("Node Permissioning is Disabled.")
+	}
+
+	//END of RoseBay Permissioning
+
 
 
 	clog := log.New("id", c.id, "addr", c.fd.RemoteAddr(), "conn", c.flags)
