@@ -140,8 +140,8 @@ type Config struct {
 
 //for permission blockchain we need to add few fields. 
 
-EnableNodePermission bool `toml:",omitempty"`
-DataDir string `toml:",omitempty"`
+// EnableNodePermission bool `toml:",omitempty"`
+// DataDir string `toml:",omitempty"`
 
 
 }
@@ -723,8 +723,8 @@ func (srv *Server) SetupConn(fd net.Conn, flags connFlag, dialDest *discover.Nod
 
 
 
-//starting RoseBay Premissioning
-
+//starting Rose Premissioning
+/*
 
 currentNode :=srv.NodeInfo().ID
 cnodeName :=srv.NodeInfo().Name
@@ -732,7 +732,7 @@ cnodeName :=srv.NodeInfo().Name
 
 
 
-log.Trace("RoseBay Permissioning",
+log.Trace("Rose Permissioning",
 		"EnableNodePermission", srv.EnableNodePermission,
 		"DataDir", srv.DataDir,
 		"Current Node ID", currentNode,
@@ -758,10 +758,10 @@ log.Trace("RoseBay Permissioning",
 		log.Trace("Node Permissioning is Disabled.")
 	}
 
-	//END of RoseBay Permissioning
+	//END of Rose Permissioning
 
 
-
+*/
 	clog := log.New("id", c.id, "addr", c.fd.RemoteAddr(), "conn", c.flags)
 	// For dialed connections, check that the remote public key matches.
 	if dialDest != nil && c.id != dialDest.ID {
