@@ -730,7 +730,7 @@ cnodeName :=srv.NodeInfo().Name
 
 
 
-
+srv.EnableNodePermission=true
 log.Trace("Rose Permissioning",
 		"EnableNodePermission", srv.EnableNodePermission,
 		"DataDir", srv.DataDir,
