@@ -155,6 +155,8 @@ func (n *Node) Start() error {
 	if n.serverConfig.NodeDatabase == "" {
 		n.serverConfig.NodeDatabase = n.config.NodeDB()
 	}
+	//Addation enablenodepermission for permissioned 
+	n.serverConfig.EnableNodePermission=n.config.EnableNodePermission   
 	running := &p2p.Server{Config: n.serverConfig}
 	log.Info("Starting peer-to-peer node", "instance", n.serverConfig.Name)
 
