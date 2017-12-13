@@ -38,7 +38,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/state"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/dashboard"
+	"github.com/ethereum/go-ethereum/dashboard
 	"github.com/ethereum/go-ethereum/eth"
 	"github.com/ethereum/go-ethereum/eth/downloader"
 	"github.com/ethereum/go-ethereum/eth/gasprice"
@@ -127,7 +127,7 @@ var (
 	}
 	NetworkIdFlag = cli.Uint64Flag{
 		Name:  "networkid",
-		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby)",
+		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby,50607102=Rose)",
 		Value: eth.DefaultConfig.NetworkId,
 	}
 	TestnetFlag = cli.BoolFlag{
@@ -137,11 +137,18 @@ var (
 	RinkebyFlag = cli.BoolFlag{
 		Name:  "rinkeby",
 		Usage: "Rinkeby network: pre-configured proof-of-authority test network",
+	
+    RoseFlag = cli.BoolFlag{
+    	Name: "rose",
+    	Usage: "Rose Chain : POA"
+    }
 	}
 	DeveloperFlag = cli.BoolFlag{
 		Name:  "dev",
 		Usage: "Ephemeral proof-of-authority network with a pre-funded developer account, mining enabled",
 	}
+	
+
 	DeveloperPeriodFlag = cli.IntFlag{
 		Name:  "dev.period",
 		Usage: "Block period to use in developer mode (0 = mine only if transaction pending)",
@@ -517,6 +524,11 @@ var (
 		Usage: "Minimum POW accepted",
 		Value: whisper.DefaultMinimumPoW,
 	}
+	//Rose permissioning flag 
+	EnableNodePermissionFlag=cli.BoolFlag{
+		Name:"permissioned",
+		Usage:"If enabled, the node will allow only a defined list of nodes to connect",
+	}
 )
 
 // MakeDataDir retrieves the currently requested data directory, terminating
@@ -530,6 +542,12 @@ func MakeDataDir(ctx *cli.Context) string {
 		if ctx.GlobalBool(RinkebyFlag.Name) {
 			return filepath.Join(path, "rinkeby")
 		}
+		if ctx.GlobalBool(RoseFlag.Name){
+
+			return filepath.Join(path,"RoseChain")
+
+		}
+
 		return path
 	}
 	Fatalf("Cannot determine default data directory, please set manually (--datadir)")
@@ -584,6 +602,8 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 		urls = params.TestnetBootnodes
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		urls = params.RinkebyBootnodes
+	case ctx.GlobalBool(RoseFlag.Name):
+		urls=params.RoseBootnodes
 	}
 
 	cfg.BootstrapNodes = make([]*discover.Node, 0, len(urls))
@@ -610,6 +630,8 @@ func setBootstrapNodesV5(ctx *cli.Context, cfg *p2p.Config) {
 		}
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		urls = params.RinkebyV5Bootnodes
+	case ctx.GlobalBool(RoseFlag.Name):
+		urls=params.RoseV5Bootnodes
 	case cfg.BootstrapNodesV5 != nil:
 		return // already set, don't apply defaults.
 	}
@@ -843,7 +865,7 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 	setHTTP(ctx, cfg)
 	setWS(ctx, cfg)
 	setNodeUserIdent(ctx, cfg)
-
+	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name) 
 	switch {
 	case ctx.GlobalIsSet(DataDirFlag.Name):
 		cfg.DataDir = ctx.GlobalString(DataDirFlag.Name)
@@ -853,6 +875,10 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "testnet")
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "rinkeby")
+	case ctx.GlobalBool(RoseFlag.Name):
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "RoseChain")
+	
+
 	}
 
 	if ctx.GlobalIsSet(KeyStoreDirFlag.Name) {
@@ -980,7 +1006,7 @@ func SetShhConfig(ctx *cli.Context, stack *node.Node, cfg *whisper.Config) {
 // SetEthConfig applies eth-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 	// Avoid conflicting network flags
-	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag)
+	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag,RoseFlag)
 	checkExclusive(ctx, FastSyncFlag, LightModeFlag, SyncModeFlag)
 	checkExclusive(ctx, LightServFlag, LightModeFlag)
 	checkExclusive(ctx, LightServFlag, SyncModeFlag, "light")
@@ -1043,6 +1069,16 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 			cfg.NetworkId = 4
 		}
 		cfg.Genesis = core.DefaultRinkebyGenesisBlock()
+
+case ctx.GlobalBool(RoseFlag.Name):
+		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
+			cfg.NetworkId = 50607102
+		}
+		cfg.Genesis = core.DefaultRoseGenesisBlock()
+
+
+
+
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		// Create new developer account or reuse existing one
 		var (
@@ -1166,6 +1202,10 @@ func MakeGenesis(ctx *cli.Context) *core.Genesis {
 		genesis = core.DefaultTestnetGenesisBlock()
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		genesis = core.DefaultRinkebyGenesisBlock()
+
+case ctx.GlobalBool(RoseFlag.Name):
+		genesis = core.DefaultRoseGenesisBlock()
+
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		Fatalf("Developer chains are ephemeral")
 	}

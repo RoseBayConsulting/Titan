@@ -108,6 +108,7 @@ var (
 		utils.DeveloperPeriodFlag,
 		utils.TestnetFlag,
 		utils.RinkebyFlag,
+		
 		utils.VMEnableDebugFlag,
 		utils.NetworkIdFlag,
 		utils.RPCCORSDomainFlag,
@@ -118,7 +119,11 @@ var (
 		utils.GpoBlocksFlag,
 		utils.GpoPercentileFlag,
 		utils.ExtraDataFlag,
+		utils.RoseFlag,
 		configFileFlag,
+
+	
+
 	}
 
 	rpcFlags = []cli.Flag{

@@ -743,7 +743,7 @@ bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 
 
-srv.EnableNodePermission=true
+//srv.EnableNodePermission=true
 log.Trace("Rose Permissioning",
 		"EnableNodePermission", srv.EnableNodePermission,
 		"DataDir", srv.DataDir,

@@ -1,4 +1,7 @@
 language: go
+branches:
+  only:
+    - Rose1.0.0
 go_import_path: github.com/ethereum/go-ethereum
 sudo: false
 matrix:

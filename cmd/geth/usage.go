@@ -73,6 +73,7 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.NetworkIdFlag,
 			utils.TestnetFlag,
 			utils.RinkebyFlag,
+			utils.RoseFlag,
 			utils.SyncModeFlag,
 			utils.EthStatsURLFlag,
 			utils.IdentityFlag,
@@ -130,6 +131,12 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.TrieCacheGenFlag,
 		},
 	},
+	{
+Name:"ROSE"
+Flags:[]cli.Flag{
+	utils.EnableNodePermissionFlag,
+	   },
+    },
 	{
 		Name: "ACCOUNT",
 		Flags: []cli.Flag{

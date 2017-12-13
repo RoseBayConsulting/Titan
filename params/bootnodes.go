@@ -51,6 +51,28 @@ var RinkebyV5Bootnodes = []string{
 	"enode://343149e4feefa15d882d9fe4ac7d88f885bd05ebb735e547f12e12080a9fa07c8014ca6fd7f373123488102fe5e34111f8509cf0b7de3f5b44339c9f25e87cb8@52.3.158.184:30303?discport=30304",  // INFURA
 }
 
+
+
+
+// RoseBootnodes are the enode URLs of the P2P bootstrap nodes running on the
+// Rose chain network.
+var RoseBootnodes = []string{
+	
+
+
+}
+
+// RoseV5Bootnodes are the enode URLs of the P2P bootstrap nodes running on the
+// Rose chain network for the experimental RLPx v5 topic-discovery network.
+var RoseV5Bootnodes = []string{
+
+
+
+}
+
+
+
+
 // DiscoveryV5Bootnodes are the enode URLs of the P2P bootstrap nodes for the
 // experimental RLPx v5 topic-discovery network.
 var DiscoveryV5Bootnodes = []string{
