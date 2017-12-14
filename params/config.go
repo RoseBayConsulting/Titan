@@ -19,7 +19,7 @@ package params
 import (
 	"fmt"
 	"math/big"
-
+	"string"
 	"github.com/ethereum/go-ethereum/common"
 )
 
