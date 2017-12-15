@@ -140,7 +140,7 @@ var (
 	
     RoseFlag = cli.BoolFlag{
     	Name: "rose",
-    	Usage: "Rose Chain : POA"
+    	Usage: "Rose Chain : POA",
     }
 	}
 	DeveloperFlag = cli.BoolFlag{
