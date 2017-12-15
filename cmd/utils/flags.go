@@ -142,7 +142,7 @@ var (
     	Name: "rose",
     	Usage: "Rose Chain : POA",
     }
-	}
+	
 	DeveloperFlag = cli.BoolFlag{
 		Name:  "dev",
 		Usage: "Ephemeral proof-of-authority network with a pre-funded developer account, mining enabled",
