@@ -120,6 +120,7 @@ var (
 		utils.GpoPercentileFlag,
 		utils.ExtraDataFlag,
 		utils.RoseFlag,
+		utils.EnableNodePermissionFlag,
 		configFileFlag,
 
 	
