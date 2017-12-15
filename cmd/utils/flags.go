@@ -137,7 +137,7 @@ var (
 	RinkebyFlag = cli.BoolFlag{
 		Name:  "rinkeby",
 		Usage: "Rinkeby network: pre-configured proof-of-authority test network",
-	
+	}
     RoseFlag = cli.BoolFlag{
     	Name: "rose",
     	Usage: "Rose Chain : POA",
