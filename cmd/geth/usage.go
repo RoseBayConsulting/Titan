@@ -132,7 +132,7 @@ var AppHelpFlagGroups = []flagGroup{
 		},
 	},
 	{
-Name:"ROSE"
+Name:"ROSE",
 Flags:[]cli.Flag{
 	utils.EnableNodePermissionFlag,
 	   },

@@ -36,7 +36,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	whisper "github.com/ethereum/go-ethereum/whisper/whisperv5"
 	"github.com/naoina/toml" 
-	"github.com/ethereum/go-ethereum/p2p/discover"
+	//"github.com/ethereum/go-ethereum/p2p/discover"
 	
 	
 )
