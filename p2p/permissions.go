@@ -3,7 +3,7 @@ package p2p
 import (
 	"encoding/json"
 	"io/ioutil"
-	//"os"
+	"os"
 	"path/filepath"
 
 	"github.com/ethereum/go-ethereum/log"
@@ -44,11 +44,11 @@ func parsePermissionedNodes(DataDir string) []*discover.Node {
 	log.Debug("parsePermissionedNodes DataDir %v, file %v", DataDir, PERMISSIONED_CONFIG)
 
 	path := filepath.Join(DataDir, PERMISSIONED_CONFIG)
-/*	if _, err := os.Stat(path); err != nil {
+	if _, err := os.Stat(path); err != nil {
 		log.Error("Read Error for permissioned-nodes.json file. This is because 'permissioned' flag is specified but no permissioned-nodes.json file is present.", "err", err)
 		return nil
 	}
-*/
+
 
 	// Load the nodes from the config file
 	blob, err := ioutil.ReadFile(path)
