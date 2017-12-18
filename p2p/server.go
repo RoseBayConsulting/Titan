@@ -728,18 +728,18 @@ func (srv *Server) SetupConn(fd net.Conn, flags connFlag, dialDest *discover.Nod
 //starting Rose Premissioning
 
 currentNode :=srv.NodeInfo().ID
-fmt.Println(currentNode)
+//fmt.Println(currentNode)
 
-fmt.Print("Press 'Enter' to continue...")
-bufio.NewReader(os.Stdin).ReadBytes('\n') 
+//fmt.Print("Press 'Enter' to continue...")
+//bufio.NewReader(os.Stdin).ReadBytes('\n') 
 
 //duration:=time.Second
 //time.Sleep(duration)
-cnodeName :=srv.NodeInfo().Name
-fmt.Println(cnodeName)
+//cnodeName :=srv.NodeInfo().Name
+//fmt.Println(cnodeName)
 
 fmt.Print("Press 'Enter' to continue...")
-bufio.NewReader(os.Stdin).ReadBytes('\n') 
+//bufio.NewReader(os.Stdin).ReadBytes('\n') 
 
 
 
