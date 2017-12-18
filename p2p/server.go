@@ -733,7 +733,7 @@ currentNode :=srv.NodeInfo().ID
 
 //duration:=time.Second
 //time.Sleep(duration)
-//cnodeName :=srv.NodeInfo().Name
+cnodeName :=srv.NodeInfo().Name
 //fmt.Println(cnodeName)
 
 fmt.Print("Press 'Enter' to continue...")
