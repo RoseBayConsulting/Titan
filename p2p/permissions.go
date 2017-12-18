@@ -3,7 +3,7 @@ package p2p
 import (
 	"encoding/json"
 	"io/ioutil"
-	"os"
+	//"os"
 	"path/filepath"
 
 	"github.com/ethereum/go-ethereum/log"
