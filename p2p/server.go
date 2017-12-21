@@ -720,28 +720,10 @@ func (srv *Server) SetupConn(fd net.Conn, flags connFlag, dialDest *discover.Nod
 		c.close(err)
 		return
 	}
-
-
-
 //starting Rose Premissioning
 
 currentNode :=srv.NodeInfo().ID
-//fmt.Println(currentNode)
-
-//fmt.Print("Press 'Enter' to continue...")
-//bufio.NewReader(os.Stdin).ReadBytes('\n') 
-
-//duration:=time.Second
-//time.Sleep(duration)
 cnodeName :=srv.NodeInfo().Name
-//fmt.Println(cnodeName)
-
-fmt.Print("Press 'Enter' to continue...")
-//bufio.NewReader(os.Stdin).ReadBytes('\n') 
-
-
-
-//srv.EnableNodePermission=true
 log.Trace("Rose Permissioning",
 		"EnableNodePermission", srv.EnableNodePermission,
 		"DataDir", srv.DataDir,
@@ -760,7 +742,11 @@ log.Trace("Rose Permissioning",
 			direction = "OUTGOING"
 			log.Trace("Node Permissioning", "Connection Direction", direction)
 		}
-
+//irrespective to given <datadir>, place your permissioned-nodes.json on this datadir "home/permissioned-nodes" directory in linux.
+//TO-DO: fix <DataDir> with respective DataDir direcory 		
+datadir:="/home/permissioned-nodes"
+srv.DataDir=datadir
+		
 		if !isNodePermissioned(node, currentNode, srv.DataDir, direction) {
 			return
 		}
