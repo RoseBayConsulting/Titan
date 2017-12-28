@@ -752,6 +752,10 @@ srv.DataDir=datadir
 		}
 	} else {
 		log.Trace("Node Permissioning is Disabled.")
+		//TODO: if node is not an admin node i.e do not have permissioned-nodes.json then divert with another protocol.
+		//for a while only node admin can enter into the network 
+		log.Crit("Non stacked/non-admin/non-Permissioned node entered,You have no access to this network")
+
 	}
 
 	//END of Rose Permissioning
