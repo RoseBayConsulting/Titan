@@ -173,6 +173,7 @@ func (a *App) Setup() {
 // Run is the entry point to the cli app. Parses the arguments slice and routes
 // to the proper flag/args combination
 func (a *App) Run(arguments []string) (err error) {
+	fmt.Println("app.Run() /cli/app.go")
 	a.Setup()
 
 	// handle the completion flag separately from the flagset since

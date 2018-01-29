@@ -127,7 +127,7 @@ var (
 	}
 	NetworkIdFlag = cli.Uint64Flag{
 		Name:  "networkid",
-		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby,50607102=Rose)",
+		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby, 50607102=titan)",
 		Value: eth.DefaultConfig.NetworkId,
 	}
 	TestnetFlag = cli.BoolFlag{
@@ -138,16 +138,16 @@ var (
 		Name:  "rinkeby",
 		Usage: "Rinkeby network: pre-configured proof-of-authority test network",
 	}
-    RoseFlag = cli.BoolFlag{
-    	Name: "rose",
-    	Usage: "Rose Chain : POA",
-    }
-	
+  TitanFlag = cli.BoolFlag{
+    Name: "titan",
+    Usage: "Titan Chain : POA",
+  }
+
 	DeveloperFlag = cli.BoolFlag{
 		Name:  "dev",
 		Usage: "Ephemeral proof-of-authority network with a pre-funded developer account, mining enabled",
 	}
-	
+
 
 	DeveloperPeriodFlag = cli.IntFlag{
 		Name:  "dev.period",
@@ -524,7 +524,7 @@ var (
 		Usage: "Minimum POW accepted",
 		Value: whisper.DefaultMinimumPoW,
 	}
-	//Rose permissioning flag 
+	//Titan permissioning flag
 	EnableNodePermissionFlag=cli.BoolFlag{
 		Name:"permissioned",
 		Usage:"If enabled, the node will allow only a defined list of nodes to connect",
@@ -542,9 +542,9 @@ func MakeDataDir(ctx *cli.Context) string {
 		if ctx.GlobalBool(RinkebyFlag.Name) {
 			return filepath.Join(path, "rinkeby")
 		}
-		if ctx.GlobalBool(RoseFlag.Name){
+		if ctx.GlobalBool(TitanFlag.Name){
 
-			return filepath.Join(path,"RoseChain")
+			return filepath.Join(path,"titan")
 
 		}
 
@@ -602,8 +602,8 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 		urls = params.TestnetBootnodes
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		urls = params.RinkebyBootnodes
-	case ctx.GlobalBool(RoseFlag.Name):
-		urls=params.RoseBootnodes
+	case ctx.GlobalBool(TitanFlag.Name):
+		urls=params.TitanBootnodes
 	}
 
 	cfg.BootstrapNodes = make([]*discover.Node, 0, len(urls))
@@ -630,8 +630,8 @@ func setBootstrapNodesV5(ctx *cli.Context, cfg *p2p.Config) {
 		}
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		urls = params.RinkebyV5Bootnodes
-	case ctx.GlobalBool(RoseFlag.Name):
-		urls=params.RoseV5Bootnodes
+	case ctx.GlobalBool(TitanFlag.Name):
+		urls=params.TitanV5Bootnodes
 	case cfg.BootstrapNodesV5 != nil:
 		return // already set, don't apply defaults.
 	}
@@ -865,7 +865,7 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 	setHTTP(ctx, cfg)
 	setWS(ctx, cfg)
 	setNodeUserIdent(ctx, cfg)
-	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name) 
+	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name)
 	switch {
 	case ctx.GlobalIsSet(DataDirFlag.Name):
 		cfg.DataDir = ctx.GlobalString(DataDirFlag.Name)
@@ -875,9 +875,9 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "testnet")
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "rinkeby")
-	case ctx.GlobalBool(RoseFlag.Name):
-		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "RoseChain")
-	
+	case ctx.GlobalBool(TitanFlag.Name):
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "titan")
+
 
 	}
 
@@ -1006,7 +1006,7 @@ func SetShhConfig(ctx *cli.Context, stack *node.Node, cfg *whisper.Config) {
 // SetEthConfig applies eth-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 	// Avoid conflicting network flags
-	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag,RoseFlag)
+	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag, TitanFlag)
 	checkExclusive(ctx, FastSyncFlag, LightModeFlag, SyncModeFlag)
 	checkExclusive(ctx, LightServFlag, LightModeFlag)
 	checkExclusive(ctx, LightServFlag, SyncModeFlag, "light")
@@ -1070,11 +1070,11 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 		}
 		cfg.Genesis = core.DefaultRinkebyGenesisBlock()
 
-case ctx.GlobalBool(RoseFlag.Name):
+case ctx.GlobalBool(TitanFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
 			cfg.NetworkId = 50607102
 		}
-		cfg.Genesis = core.DefaultRoseGenesisBlock()
+		cfg.Genesis = core.DefaultTitanGenesisBlock()
 
 
 
@@ -1203,8 +1203,8 @@ func MakeGenesis(ctx *cli.Context) *core.Genesis {
 	case ctx.GlobalBool(RinkebyFlag.Name):
 		genesis = core.DefaultRinkebyGenesisBlock()
 
-case ctx.GlobalBool(RoseFlag.Name):
-		genesis = core.DefaultRoseGenesisBlock()
+case ctx.GlobalBool(TitanFlag.Name):
+		genesis = core.DefaultTitanGenesisBlock()
 
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		Fatalf("Developer chains are ephemeral")

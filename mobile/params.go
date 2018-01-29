@@ -53,7 +53,7 @@ func RinkebyGenesis() string {
 
 //RoseGenesis returns the JSON spec to use for the Rose test network
 func RoseGenesis() string {
-enc, err := json.Marshall(core.DefaultRoseGenesisBlock())
+enc, err := json.Marshal(core.DefaultTitanGenesisBlock())
 if err!= nil{
 panic(err)
 }

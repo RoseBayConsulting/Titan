@@ -108,7 +108,7 @@ var (
 		utils.DeveloperPeriodFlag,
 		utils.TestnetFlag,
 		utils.RinkebyFlag,
-		
+
 		utils.VMEnableDebugFlag,
 		utils.NetworkIdFlag,
 		utils.RPCCORSDomainFlag,
@@ -119,11 +119,11 @@ var (
 		utils.GpoBlocksFlag,
 		utils.GpoPercentileFlag,
 		utils.ExtraDataFlag,
-		utils.RoseFlag,
+		utils.TitanFlag,
 		utils.EnableNodePermissionFlag,
 		configFileFlag,
 
-	
+
 
 	}
 
@@ -149,6 +149,7 @@ var (
 )
 
 func init() {
+	fmt.Println("init started...")
 	// Initialize the CLI app and start Geth
 	app.Action = geth
 	app.HideVersion = true // we have a command to print the version
@@ -188,6 +189,9 @@ func init() {
 	app.Flags = append(app.Flags, whisperFlags...)
 
 	app.Before = func(ctx *cli.Context) error {
+		fmt.Println("running app.Before... /geth/main.go")
+		// NumCPU returns the number of logical CPUs usable by the current process.
+		// GOMAXPROCS sets the maximum number of CPUs that can be executing simultaneously and returns the previous setting
 		runtime.GOMAXPROCS(runtime.NumCPU())
 		if err := debug.Setup(ctx); err != nil {
 			return err
@@ -200,6 +204,7 @@ func init() {
 	}
 
 	app.After = func(ctx *cli.Context) error {
+		fmt.Println("running app.After... /geth/main.go")
 		debug.Exit()
 		console.Stdin.Close() // Resets terminal mode.
 		return nil
@@ -207,8 +212,9 @@ func init() {
 }
 
 func main() {
+	fmt.Println("Starting geth...")
 	if err := app.Run(os.Args); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+
 		os.Exit(1)
 	}
 }
@@ -217,6 +223,8 @@ func main() {
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
 func geth(ctx *cli.Context) error {
+	fmt.Println("Starting geth console.../geth/main.go")
+	// geth/config.go
 	node := makeFullNode(ctx)
 	startNode(ctx, node)
 	node.Wait()
@@ -227,6 +235,7 @@ func geth(ctx *cli.Context) error {
 // it unlocks any requested accounts, and starts the RPC/IPC interfaces and the
 // miner.
 func startNode(ctx *cli.Context, stack *node.Node) {
+	fmt.Println("startNode boots up the system node and all registered protocols, after which it unlocks any requested accounts, and starts the RPC/IPC interfaces and the miner. geth/main.go")
 	// Start up the node itself
 	utils.StartNode(stack)
 

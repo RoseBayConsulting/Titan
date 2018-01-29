@@ -18,6 +18,7 @@ package eth
 
 import (
 	"math/big"
+	"fmt"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -55,6 +56,7 @@ var DefaultConfig = Config{
 }
 
 func init() {
+	fmt.Println("/eth/config.go init function...")
 	home := os.Getenv("HOME")
 	if home == "" {
 		if user, err := user.Current(); err == nil {

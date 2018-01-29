@@ -54,19 +54,19 @@ var RinkebyV5Bootnodes = []string{
 
 
 
-// RoseBootnodes are the enode URLs of the P2P bootstrap nodes running on the
-// Rose chain network.
-var RoseBootnodes = []string{
-	
-
-
+// TitanBootnodes are the enode URLs of the P2P bootstrap nodes running on the
+// Titan chain network.
+var TitanBootnodes = []string{
+	"enode://4e9f0039a9ae15b1137f865cfb384fe4b87dfbde828dff45c667a2cb159a24bbfc28429bf3560ed147e4a5e3c309d270161a624416550973d255161e78d4df7f@192.168.100.6:30303", // bks
+	"enode://fced81677e82a12d2ba7ea52719120542b611c4119f1eafd84dea7f111b32ec0315df218b906b635208f9dce45edbb997463388fe69fd64b87a72e947c109b9e@103.254.185.15:30303", // gpl
 }
 
-// RoseV5Bootnodes are the enode URLs of the P2P bootstrap nodes running on the
-// Rose chain network for the experimental RLPx v5 topic-discovery network.
-var RoseV5Bootnodes = []string{
+// TitanV5Bootnodes are the enode URLs of the P2P bootstrap nodes running on the
+// Titan chain network for the experimental RLPx v5 topic-discovery network.
+var TitanV5Bootnodes = []string{
 
-
+	"enode://4e9f0039a9ae15b1137f865cfb384fe4b87dfbde828dff45c667a2cb159a24bbfc28429bf3560ed147e4a5e3c309d270161a624416550973d255161e78d4df7f@192.168.100.6:30303?discport=30304", // bks
+	"enode://fced81677e82a12d2ba7ea52719120542b611c4119f1eafd84dea7f111b32ec0315df218b906b635208f9dce45edbb997463388fe69fd64b87a72e947c109b9e@103.254.185.15:30303?discport=30304", // gpl
 
 }
 

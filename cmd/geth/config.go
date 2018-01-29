@@ -35,10 +35,10 @@ import (
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/params"
 	whisper "github.com/ethereum/go-ethereum/whisper/whisperv5"
-	"github.com/naoina/toml" 
+	"github.com/naoina/toml"
 	//"github.com/ethereum/go-ethereum/p2p/discover"
-	
-	
+
+
 )
 
 var (
@@ -113,6 +113,7 @@ func defaultNodeConfig() node.Config {
 }
 
 func makeConfigNode(ctx *cli.Context) (*node.Node, gethConfig) {
+	fmt.Println("load default.... /geth/config.go")
 	// Load defaults.
 	cfg := gethConfig{
 		Eth:       eth.DefaultConfig,
@@ -120,9 +121,9 @@ func makeConfigNode(ctx *cli.Context) (*node.Node, gethConfig) {
 		Node:      defaultNodeConfig(),
 		Dashboard: dashboard.DefaultConfig,
 	}
-
+fmt.Println(configFileFlag.Name)
 	// Load config file.
-	if file := ctx.GlobalString(configFileFlag.Name); file != "" {
+	if file := ctx.GlobalString(configFileFlag.Name); file != "" {		
 		if err := loadConfig(file, &cfg); err != nil {
 			utils.Fatalf("%v", err)
 		}

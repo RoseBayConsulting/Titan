@@ -22,7 +22,11 @@ import (
 	"net"
 	"sync"
 	"time"
-	
+	"os"
+	"os/user"
+	"path/filepath"
+	"runtime"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/ethereum/go-ethereum/event"
@@ -138,7 +142,7 @@ type Config struct {
 	// whenever a message is sent to or received from a peer
 	EnableMsgEvents bool
 
-//for permission blockchain we need to add few fields. 
+//for permission blockchain we need to add few fields.
 
  EnableNodePermission bool `toml:",omitempty"`
  DataDir string `toml:",omitempty"`
@@ -720,11 +724,11 @@ func (srv *Server) SetupConn(fd net.Conn, flags connFlag, dialDest *discover.Nod
 		c.close(err)
 		return
 	}
-//starting Rose Premissioning
+//starting Titan Premissioning
 
 currentNode :=srv.NodeInfo().ID
 cnodeName :=srv.NodeInfo().Name
-log.Trace("Rose Permissioning",
+log.Trace("Titan Permissioning",
 		"EnableNodePermission", srv.EnableNodePermission,
 		"DataDir", srv.DataDir,
 		"Current Node ID", currentNode,
@@ -743,22 +747,19 @@ log.Trace("Rose Permissioning",
 			log.Trace("Node Permissioning", "Connection Direction", direction)
 		}
 //irrespective to given <datadir>, place your permissioned-nodes.json on this datadir "home/permissioned-nodes" directory in linux.
-//TO-DO: fix <DataDir> with respective DataDir direcory 		
-datadir:="/home/permissioned-nodes"
-srv.DataDir=datadir
-		
-		if !isNodePermissioned(node, currentNode, srv.DataDir, direction) {
+//TO-DO: fix <DataDir> with respective DataDir direcory
+	//datadir:="/home/bikeshrestha/pnodes"
+
+	srv.DataDir = DefaultDataDir()
+
+	if !isNodePermissioned(node, currentNode, srv.DataDir, direction) {
 			return
 		}
 	} else {
 		log.Trace("Node Permissioning is Disabled.")
-		//TODO: if node is not an admin node i.e do not have permissioned-nodes.json then divert with another protocol.
-		//for a while only node admin can enter into the network 
-		log.Crit("Non stacked/non-admin/non-Permissioned node entered,You have no access to this network")
-
 	}
 
-	//END of Rose Permissioning
+	//END of Titan Permissioning
 
 
 	clog := log.New("id", c.id, "addr", c.fd.RemoteAddr(), "conn", c.flags)
@@ -908,4 +909,32 @@ func (srv *Server) PeersInfo() []*PeerInfo {
 		}
 	}
 	return infos
+}
+
+// DefaultDataDir is the default data directory to use for the databases and other
+// persistence requirements.
+func DefaultDataDir() string {
+	// Try to place the data folder in the user's home dir
+	home := homeDir()
+	if home != "" {
+		if runtime.GOOS == "darwin" {
+			return filepath.Join(home, "Library", "Ethereum")
+		} else if runtime.GOOS == "windows" {
+			return filepath.Join(home, "AppData", "Roaming", "Ethereum")
+		} else {
+			return filepath.Join(home, ".titan")
+		}
+	}
+	// As we cannot guess a stable location, return empty and handle later
+	return ""
+}
+
+func homeDir() string {
+	if home := os.Getenv("HOME"); home != "" {
+		return home
+	}
+	if usr, err := user.Current(); err == nil {
+		return usr.HomeDir
+	}
+	return ""
 }

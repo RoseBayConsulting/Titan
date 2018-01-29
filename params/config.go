@@ -26,7 +26,7 @@ import (
 var (
 	MainnetGenesisHash = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3") // Mainnet genesis hash to enforce below configs on
 	TestnetGenesisHash = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d") // Testnet genesis hash to enforce below configs on
-	RoseChainGenesisHash = common.HexToHash("0x9b095b36c15eaf13044373aef8ee0bd3a382a5abb92e402afa44b8249c3a90e9")    // Rose chain genesis hash to enforce below configs on
+	TitanChainGenesisHash = common.HexToHash("0x663fb5296d1c1bb60392585cbce9fcb2391e3ea0dfe3c57bfac93ef91ff61288")    // Titan chain genesis hash to enforce below configs on
 )
 
 var (
@@ -79,16 +79,16 @@ var (
 	}
 
 
-	RoseChainConfig = &ChainConfig{
+	TitanChainConfig = &ChainConfig{
 		ChainId:        big.NewInt(50607102),
-		HomesteadBlock: big.NewInt(0),
+		HomesteadBlock: big.NewInt(1),
 		DAOForkBlock:   nil,
 		DAOForkSupport: true,
-		EIP150Block:    big.NewInt(2),
-		EIP150Hash:     common.HexToHash("0x9b095b36c15eaf13044373aef8ee0bd3a382a5abb92e402afa44b8249c3a90e9"),
-		EIP155Block:    big.NewInt(0),
-		EIP158Block:    big.NewInt(0),
-		ByzantiumBlock: big.NewInt(1035301),
+		EIP150Block:    big.NewInt(0),
+		EIP150Hash:     common.HexToHash("0x663fb5296d1c1bb60392585cbce9fcb2391e3ea0dfe3c57bfac93ef91ff61288"),
+		EIP155Block:    big.NewInt(3),
+		EIP158Block:    big.NewInt(3),
+		ByzantiumBlock: big.NewInt(4),
 
 		Clique: &CliqueConfig{
 			Period: 15,
